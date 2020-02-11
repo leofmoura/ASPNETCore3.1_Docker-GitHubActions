@@ -23,3 +23,10 @@ jobs:
         docker build . --file Dockerfile --tag ${{ secrets.DOCKER_CONTAINER_REGISTRY }}/apicontagem:latest
         docker tag ${{ secrets.DOCKER_CONTAINER_REGISTRY }}/apicontagem:latest ${{ secrets.DOCKER_CONTAINER_REGISTRY }}/apicontagem:$(date +%s)
         docker push ${{ secrets.DOCKER_CONTAINER_REGISTRY }}/apicontagem
+    - name: Azure WebApp Container
+      uses: Azure/webapps-container-deploy@v1
+      with:
+        # Name of the Azure Web App
+        app-name: leo-app
+        # Enter an existing Slot other than the Production slot
+        images: ${{ secrets.DOCKER_CONTAINER_REGISTRY }}/apicontagem:latest
